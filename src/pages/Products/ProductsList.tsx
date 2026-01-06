@@ -100,6 +100,7 @@ export const ProductsList = () => {
           justifyContent: "space-between",
           alignItems: "center",
           mb: 3,
+          mt: 10,
         }}
       >
         <Typography variant="h4">Товары</Typography>
@@ -114,7 +115,7 @@ export const ProductsList = () => {
 
       <Box sx={{ display: "flex", gap: 2, mb: 3 }}>
         <TextField
-          placeholder="Поиск товаров..."
+          label="Поиск товаров"
           value={search}
           onChange={handleSearchChange}
           sx={{ flexGrow: 1 }}

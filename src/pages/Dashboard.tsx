@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Paper, Typography, Box, CircularProgress } from "@mui/material";
 import api from "../services/api";
 import type { Statistics } from "../types/statistics";
@@ -20,29 +20,48 @@ const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#8884d8"];
 export const Dashboard = () => {
   const [statistics, setStatistics] = useState<Statistics | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchStatistics();
-  }, []);
+  const fetchStatistics = useCallback(async () => {
+    setLoading(true);
+    setError(null);
 
-  const fetchStatistics = async () => {
     try {
       const response = await api.get<Statistics>("/admin/statistics");
       setStatistics(response.data);
-    } catch (error) {
-      console.error("Error fetching statistics:", error);
-      // Если эндпоинт не найден, возможно он называется по-другому
-      // Попробуем альтернативный путь
-      try {
-        const altResponse = await api.get<Statistics>("/statistics");
-        setStatistics(altResponse.data);
-      } catch (altError) {
-        console.error("Alternative endpoint also failed:", altError);
+    } catch (err) {
+      console.error("Error fetching statistics:", err);
+      const axiosError = err as {
+        response?: { status?: number; data?: { message?: string } };
+      };
+      const status = axiosError.response?.status;
+
+      let errorMessage = "Не удалось загрузить статистику";
+
+      if (status === 401) {
+        errorMessage = "Требуется авторизация. Пожалуйста, войдите в систему.";
+      } else if (status === 403) {
+        errorMessage = "Доступ запрещен. Требуются права администратора.";
+      } else if (status === 404) {
+        errorMessage =
+          "Эндпоинт статистики не найден. Проверьте подключение к API.";
+      } else if (axiosError.response?.data?.message) {
+        errorMessage = axiosError.response.data.message;
+      } else {
+        errorMessage =
+          "Не удалось загрузить статистику. Проверьте подключение к API.";
       }
+
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    void fetchStatistics();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (loading) {
     return (
@@ -57,8 +76,23 @@ export const Dashboard = () => {
     );
   }
 
-  if (!statistics) {
-    return <Typography>Не удалось загрузить статистику</Typography>;
+  if (error || !statistics) {
+    return (
+      <Box>
+        <Typography variant="h4" gutterBottom>
+          Dashboard
+        </Typography>
+        <Paper sx={{ p: 3, mt: 3 }}>
+          <Typography color="error" variant="h6" gutterBottom>
+            {error || "Не удалось загрузить статистику"}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Пожалуйста, проверьте подключение к API и убедитесь, что эндпоинт
+            статистики доступен.
+          </Typography>
+        </Paper>
+      </Box>
+    );
   }
 
   const orderStatusData = [

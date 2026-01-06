@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useForm, Controller } from 'react-hook-form';
-import { useSnackbar } from 'notistack';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useForm, Controller } from "react-hook-form";
+import { useSnackbar } from "notistack";
 import {
   Box,
   Button,
@@ -16,11 +17,10 @@ import {
   MenuItem,
   Checkbox,
   FormControlLabel,
-  Chip,
-} from '@mui/material';
-import api from '../../services/api';
-import type { Product } from '../../types/products';
-import type { Category } from '../../types/categories';
+} from "@mui/material";
+import api from "../../services/api";
+import type { Product } from "../../types/products";
+import type { Category } from "../../types/categories";
 
 interface ProductFormData {
   name: string;
@@ -41,9 +41,9 @@ export const ProductForm = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
-  const [imageUrls, setImageUrls] = useState<string[]>(['']);
+  const [imageUrls, setImageUrls] = useState<string[]>([""]);
   const isEdit = !!id;
   const { enqueueSnackbar } = useSnackbar();
 
@@ -53,21 +53,20 @@ export const ProductForm = () => {
     control,
     formState: { errors },
     setValue,
-    watch,
   } = useForm<ProductFormData>({
     defaultValues: {
-      name: '',
-      description: '',
+      name: "",
+      description: "",
       price: 0,
       oldPrice: undefined,
       images: [],
-      categoryId: '',
+      categoryId: "",
       inStock: true,
       stockQuantity: 0,
       sizes: [],
       colors: [],
-      brand: '',
-      sku: '',
+      brand: "",
+      sku: "",
     },
   });
 
@@ -80,10 +79,10 @@ export const ProductForm = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await api.get<Category[]>('/categories');
+      const response = await api.get<Category[]>("/categories");
       setCategories(response.data);
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error("Error fetching categories:", error);
     }
   };
 
@@ -92,27 +91,31 @@ export const ProductForm = () => {
     try {
       const response = await api.get<Product>(`/products/${id}`);
       const product = response.data;
-      setValue('name', product.name);
-      setValue('description', product.description);
-      setValue('price', product.price);
-      setValue('oldPrice', product.oldPrice || undefined);
-      setValue('categoryId', product.categoryId);
-      setValue('inStock', product.inStock);
-      setValue('stockQuantity', product.stockQuantity);
-      const sizesValue = product.sizes 
-        ? (Array.isArray(product.sizes) ? product.sizes.join(', ') : product.sizes)
-        : '';
+      setValue("name", product.name);
+      setValue("description", product.description);
+      setValue("price", product.price);
+      setValue("oldPrice", product.oldPrice || undefined);
+      setValue("categoryId", product.categoryId);
+      setValue("inStock", product.inStock);
+      setValue("stockQuantity", product.stockQuantity);
+      const sizesValue = product.sizes
+        ? Array.isArray(product.sizes)
+          ? product.sizes.join(", ")
+          : product.sizes
+        : "";
       const colorsValue = product.colors
-        ? (Array.isArray(product.colors) ? product.colors.join(', ') : product.colors)
-        : '';
-      setValue('sizes', sizesValue);
-      setValue('colors', colorsValue);
-      setValue('brand', product.brand || '');
-      setValue('sku', product.sku);
-      setImageUrls(product.images.length > 0 ? product.images : ['']);
-      setValue('images', product.images);
+        ? Array.isArray(product.colors)
+          ? product.colors.join(", ")
+          : product.colors
+        : "";
+      setValue("sizes", sizesValue);
+      setValue("colors", colorsValue);
+      setValue("brand", product.brand || "");
+      setValue("sku", product.sku);
+      setImageUrls(product.images.length > 0 ? product.images : [""]);
+      setValue("images", product.images);
     } catch (error) {
-      console.error('Error fetching product:', error);
+      console.error("Error fetching product:", error);
     }
   };
 
@@ -120,39 +123,53 @@ export const ProductForm = () => {
     const newUrls = [...imageUrls];
     newUrls[index] = value;
     setImageUrls(newUrls);
-    setValue('images', newUrls.filter((url) => url.trim() !== ''));
+    setValue(
+      "images",
+      newUrls.filter((url) => url.trim() !== "")
+    );
   };
 
   const addImageUrl = () => {
-    setImageUrls([...imageUrls, '']);
+    setImageUrls([...imageUrls, ""]);
   };
 
   const removeImageUrl = (index: number) => {
     const newUrls = imageUrls.filter((_, i) => i !== index);
     setImageUrls(newUrls);
-    setValue('images', newUrls.filter((url) => url.trim() !== ''));
+    setValue(
+      "images",
+      newUrls.filter((url) => url.trim() !== "")
+    );
   };
 
   const onSubmit = async (data: ProductFormData) => {
     setLoading(true);
-    setError('');
+    setError("");
 
-    const images = imageUrls.filter((url) => url.trim() !== '');
+    const images = imageUrls.filter((url) => url.trim() !== "");
     if (images.length === 0) {
-      setError('Необходимо добавить хотя бы одно изображение');
+      setError("Необходимо добавить хотя бы одно изображение");
       setLoading(false);
       return;
     }
 
     try {
       // Преобразуем строки sizes и colors в массивы
-      const sizesArray = typeof data.sizes === 'string' 
-        ? data.sizes.split(',').map(s => s.trim()).filter(s => s !== '')
-        : data.sizes || [];
-      
-      const colorsArray = typeof data.colors === 'string'
-        ? data.colors.split(',').map(c => c.trim()).filter(c => c !== '')
-        : data.colors || [];
+      const sizesArray =
+        typeof data.sizes === "string"
+          ? data.sizes
+              .split(",")
+              .map((s) => s.trim())
+              .filter((s) => s !== "")
+          : data.sizes || [];
+
+      const colorsArray =
+        typeof data.colors === "string"
+          ? data.colors
+              .split(",")
+              .map((c) => c.trim())
+              .filter((c) => c !== "")
+          : data.colors || [];
 
       const payload = {
         ...data,
@@ -164,16 +181,17 @@ export const ProductForm = () => {
 
       if (isEdit) {
         await api.patch(`/products/${id}`, payload);
-        enqueueSnackbar('Товар успешно обновлен', { variant: 'success' });
+        enqueueSnackbar("Товар успешно обновлен", { variant: "success" });
       } else {
-        await api.post('/products', payload);
-        enqueueSnackbar('Товар успешно создан', { variant: 'success' });
+        await api.post("/products", payload);
+        enqueueSnackbar("Товар успешно создан", { variant: "success" });
       }
-      navigate('/admin/products');
+      navigate("/admin/products");
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message || 'Ошибка при сохранении товара';
+      const errorMessage =
+        err.response?.data?.message || "Ошибка при сохранении товара";
       setError(errorMessage);
-      enqueueSnackbar(errorMessage, { variant: 'error' });
+      enqueueSnackbar(errorMessage, { variant: "error" });
     } finally {
       setLoading(false);
     }
@@ -182,31 +200,37 @@ export const ProductForm = () => {
   return (
     <Box>
       <Typography variant="h4" gutterBottom>
-        {isEdit ? 'Редактировать товар' : 'Создать товар'}
+        {isEdit ? "Редактировать товар" : "Создать товар"}
       </Typography>
 
       <Paper sx={{ p: 3, mt: 3 }}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
             {error && <Alert severity="error">{error}</Alert>}
 
             <Typography variant="h6">Основная информация</Typography>
             <TextField
               label="Название"
-              {...register('name', { required: 'Название обязательно' })}
+              {...register("name", { required: "Название обязательно" })}
               error={!!errors.name}
               helperText={errors.name?.message}
               fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
 
             <TextField
               label="Описание"
-              {...register('description', { required: 'Описание обязательно' })}
+              {...register("description", { required: "Описание обязательно" })}
               error={!!errors.description}
               helperText={errors.description?.message}
               fullWidth
               multiline
               rows={4}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
 
             <FormControl fullWidth error={!!errors.categoryId}>
@@ -214,7 +238,7 @@ export const ProductForm = () => {
               <Controller
                 name="categoryId"
                 control={control}
-                rules={{ required: 'Категория обязательна' }}
+                rules={{ required: "Категория обязательна" }}
                 render={({ field }) => (
                   <Select {...field} label="Категория">
                     {categories.map((category) => (
@@ -226,7 +250,11 @@ export const ProductForm = () => {
                 )}
               />
               {errors.categoryId && (
-                <Typography variant="caption" color="error" sx={{ mt: 0.5, ml: 1.75 }}>
+                <Typography
+                  variant="caption"
+                  color="error"
+                  sx={{ mt: 0.5, ml: 1.75 }}
+                >
                   {errors.categoryId.message}
                 </Typography>
               )}
@@ -234,47 +262,62 @@ export const ProductForm = () => {
 
             <TextField
               label="SKU (Артикул)"
-              {...register('sku', { required: 'SKU обязателен' })}
+              {...register("sku", { required: "SKU обязателен" })}
               error={!!errors.sku}
               helperText={errors.sku?.message}
               fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
 
             <Typography variant="h6">Цены</Typography>
-            <Box sx={{ display: 'flex', gap: 2 }}>
+            <Box sx={{ display: "flex", gap: 2 }}>
               <TextField
                 label="Цена (₽)"
                 type="number"
-                {...register('price', {
-                  required: 'Цена обязательна',
-                  min: { value: 0, message: 'Цена должна быть положительной' },
+                {...register("price", {
+                  required: "Цена обязательна",
+                  min: { value: 0, message: "Цена должна быть положительной" },
                   valueAsNumber: true,
                 })}
                 error={!!errors.price}
                 helperText={errors.price?.message}
                 fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
               <TextField
                 label="Старая цена (₽)"
                 type="number"
-                {...register('oldPrice', {
-                  min: { value: 0, message: 'Цена должна быть положительной' },
+                {...register("oldPrice", {
+                  min: { value: 0, message: "Цена должна быть положительной" },
                   valueAsNumber: true,
                 })}
                 error={!!errors.oldPrice}
-                helperText={errors.oldPrice?.message || 'Для скидок'}
+                helperText={errors.oldPrice?.message || "Для скидок"}
                 fullWidth
+                InputLabelProps={{
+                  shrink: true,
+                }}
               />
             </Box>
 
             <Typography variant="h6">Изображения</Typography>
             {imageUrls.map((url, index) => (
-              <Box key={index} sx={{ display: 'flex', gap: 1, alignItems: 'flex-start' }}>
+              <Box
+                key={index}
+                sx={{ display: "flex", gap: 1, alignItems: "flex-start" }}
+              >
                 <TextField
                   label={`Изображение ${index + 1}`}
                   value={url}
                   onChange={(e) => handleImageUrlChange(index, e.target.value)}
                   fullWidth
+                  InputLabelProps={{
+                    shrink: !!url,
+                  }}
                 />
                 {imageUrls.length > 1 && (
                   <Button onClick={() => removeImageUrl(index)} color="error">
@@ -290,22 +333,31 @@ export const ProductForm = () => {
             <Typography variant="h6">Характеристики</Typography>
             <TextField
               label="Бренд"
-              {...register('brand')}
+              {...register("brand")}
               fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
 
             <TextField
               label="Размеры (через запятую)"
-              {...register('sizes')}
+              {...register("sizes")}
               helperText="Например: S, M, L, XL"
               fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
 
             <TextField
               label="Цвета (через запятую)"
-              {...register('colors')}
+              {...register("colors")}
               helperText="Например: Черный, Белый, Красный"
               fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
 
             <Typography variant="h6">Склад</Typography>
@@ -325,27 +377,33 @@ export const ProductForm = () => {
             <TextField
               label="Количество на складе"
               type="number"
-              {...register('stockQuantity', {
-                min: { value: 0, message: 'Количество должно быть неотрицательным' },
+              {...register("stockQuantity", {
+                min: {
+                  value: 0,
+                  message: "Количество должно быть неотрицательным",
+                },
                 valueAsNumber: true,
               })}
               error={!!errors.stockQuantity}
               helperText={errors.stockQuantity?.message}
               fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
 
-            <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+            <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
               <Button
                 type="submit"
                 variant="contained"
                 disabled={loading}
                 size="large"
               >
-                {loading ? <CircularProgress size={24} /> : 'Сохранить'}
+                {loading ? <CircularProgress size={24} /> : "Сохранить"}
               </Button>
               <Button
                 variant="outlined"
-                onClick={() => navigate('/admin/products')}
+                onClick={() => navigate("/admin/products")}
                 size="large"
               >
                 Отмена
@@ -357,4 +415,3 @@ export const ProductForm = () => {
     </Box>
   );
 };
-

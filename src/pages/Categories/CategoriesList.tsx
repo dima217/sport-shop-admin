@@ -89,13 +89,17 @@ export const CategoriesList = () => {
           justifyContent: "space-between",
           alignItems: "center",
           mb: 3,
+          mt: 10,
         }}
       >
         <Typography variant="h4">Категории</Typography>
         <Button
           variant="contained"
+          color="primary"
+          size="large"
           startIcon={<AddIcon />}
           onClick={() => navigate("/admin/categories/create")}
+          sx={{ minWidth: 200 }}
         >
           Создать категорию
         </Button>
@@ -113,42 +117,64 @@ export const CategoriesList = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {categories.map((category) => (
-              <TableRow key={category.id}>
-                <TableCell>{category.name}</TableCell>
-                <TableCell>{category.slug}</TableCell>
-                <TableCell>
-                  {category.image && (
-                    <img
-                      src={category.image}
-                      alt={category.name}
-                      style={{ width: 50, height: 50, objectFit: "cover" }}
-                    />
-                  )}
-                </TableCell>
-                <TableCell>{category.productCount || 0}</TableCell>
-                <TableCell align="right">
-                  <IconButton
-                    size="small"
-                    onClick={() =>
-                      navigate(`/admin/categories/${category.id}/edit`)
-                    }
+            {categories.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={5} align="center" sx={{ py: 4 }}>
+                  <Typography
+                    variant="body1"
+                    color="text.secondary"
+                    gutterBottom
                   >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    size="small"
-                    color="error"
-                    onClick={() => {
-                      setCategoryToDelete(category);
-                      setDeleteDialogOpen(true);
-                    }}
+                    Категории не найдены
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={() => navigate("/admin/categories/create")}
+                    sx={{ mt: 2 }}
                   >
-                    <DeleteIcon />
-                  </IconButton>
+                    Создать первую категорию
+                  </Button>
                 </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              categories.map((category) => (
+                <TableRow key={category.id}>
+                  <TableCell>{category.name}</TableCell>
+                  <TableCell>{category.slug}</TableCell>
+                  <TableCell>
+                    {category.image && (
+                      <img
+                        src={category.image}
+                        alt={category.name}
+                        style={{ width: 50, height: 50, objectFit: "cover" }}
+                      />
+                    )}
+                  </TableCell>
+                  <TableCell>{category.productCount || 0}</TableCell>
+                  <TableCell align="right">
+                    <IconButton
+                      size="small"
+                      onClick={() =>
+                        navigate(`/admin/categories/${category.id}/edit`)
+                      }
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      size="small"
+                      color="error"
+                      onClick={() => {
+                        setCategoryToDelete(category);
+                        setDeleteDialogOpen(true);
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
           </TableBody>
         </Table>
       </TableContainer>

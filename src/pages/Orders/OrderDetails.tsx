@@ -63,9 +63,10 @@ export const OrderDetails = () => {
       await api.patch(`/orders/${id}/status`, { status: newStatus });
       setOrder({ ...order, status: newStatus });
       enqueueSnackbar('Статус заказа успешно обновлен', { variant: 'success' });
-    } catch (error: any) {
+    } catch (error) {
       console.error('Error updating order status:', error);
-      enqueueSnackbar(error.response?.data?.message || 'Ошибка при обновлении статуса', { variant: 'error' });
+      const message = error instanceof Error ? error.message : 'Ошибка при обновлении статуса';
+      enqueueSnackbar(message, { variant: 'error' });
     }
   };
 
@@ -110,18 +111,18 @@ export const OrderDetails = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {order.items.map((item) => (
+                  {order.items?.map((item) => (
                     <TableRow key={item.id}>
                       <TableCell>
-                        {item.product.images[0] && (
+                        {item.product?.images?.[0] && (
                           <img
                             src={item.product.images[0]}
-                            alt={item.product.name}
+                            alt={item.product?.name || 'Товар'}
                             style={{ width: 50, height: 50, objectFit: 'cover' }}
                           />
                         )}
                       </TableCell>
-                      <TableCell>{item.product.name}</TableCell>
+                      <TableCell>{item.product?.name || 'Неизвестный товар'}</TableCell>
                       <TableCell>{item.size || '-'}</TableCell>
                       <TableCell>{item.color || '-'}</TableCell>
                       <TableCell>{item.quantity}</TableCell>
@@ -190,10 +191,10 @@ export const OrderDetails = () => {
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
               <Typography>
-                {order.user.profile.firstName} {order.user.profile.lastName}
+                {order.user?.profile?.firstName || ''} {order.user?.profile?.lastName || ''}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {order.user.email}
+                {order.user?.email || 'Не указан'}
               </Typography>
             </Box>
           </Paper>
