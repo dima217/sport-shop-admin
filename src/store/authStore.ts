@@ -1,15 +1,15 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import api from "../services/api";
-import type { User, AuthResponse } from "../types/auth";
+import type { AuthUser, AuthResponse } from "../types/auth";
 
 interface AuthState {
-  user: User | null;
+  user: AuthUser | null;
   token: string | null;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  setUser: (user: User) => void;
+  setUser: (user: AuthUser) => void;
   setToken: (token: string) => void;
   init: () => void;
 }
@@ -45,7 +45,7 @@ export const useAuthStore = create<AuthState>()(
           isAuthenticated: false,
         });
       },
-      setUser: (user: User) => set({ user }),
+      setUser: (user: AuthUser) => set({ user }),
       setToken: (token: string) => {
         localStorage.setItem("accessToken", token);
         set({ token, isAuthenticated: true });

@@ -14,6 +14,7 @@ import InventoryIcon from '@mui/icons-material/Inventory';
 import CategoryIcon from '@mui/icons-material/Category';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import PeopleIcon from '@mui/icons-material/People';
 
 const drawerWidth = 240;
 
@@ -22,6 +23,7 @@ const menuItems = [
   { text: 'Товары', icon: <InventoryIcon />, path: '/admin/products' },
   { text: 'Категории', icon: <CategoryIcon />, path: '/admin/categories' },
   { text: 'Заказы', icon: <ShoppingCartIcon />, path: '/admin/orders' },
+  { text: 'Пользователи', icon: <PeopleIcon />, path: '/admin/users' },
   { text: 'Статистика', icon: <BarChartIcon />, path: '/admin/statistics' },
 ];
 

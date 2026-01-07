@@ -14,6 +14,7 @@ import { ProductDiscount } from './pages/Products/ProductDiscount';
 import { OrdersList } from './pages/Orders/OrdersList';
 import { OrderDetails } from './pages/Orders/OrderDetails';
 import { Statistics } from './pages/Statistics';
+import { UsersList } from './pages/Users/UsersList';
 import { useAuthStore } from './store/authStore';
 import { useEffect } from 'react';
 
@@ -158,6 +159,16 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <Statistics />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <UsersList />
                 </Layout>
               </ProtectedRoute>
             }
