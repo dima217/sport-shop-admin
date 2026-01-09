@@ -15,6 +15,8 @@ import { OrdersList } from './pages/Orders/OrdersList';
 import { OrderDetails } from './pages/Orders/OrderDetails';
 import { Statistics } from './pages/Statistics';
 import { UsersList } from './pages/Users/UsersList';
+import { TicketsList } from './pages/Support/TicketsList';
+import { TicketDetails } from './pages/Support/TicketDetails';
 import { useAuthStore } from './store/authStore';
 import { useEffect } from 'react';
 
@@ -169,6 +171,26 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <UsersList />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/support/tickets"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <TicketsList />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/support/tickets/:id"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <TicketDetails />
                 </Layout>
               </ProtectedRoute>
             }

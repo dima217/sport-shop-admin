@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Drawer,
   List,
@@ -8,23 +8,29 @@ import {
   ListItemText,
   Toolbar,
   Box,
-} from '@mui/material';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import InventoryIcon from '@mui/icons-material/Inventory';
-import CategoryIcon from '@mui/icons-material/Category';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import PeopleIcon from '@mui/icons-material/People';
+} from "@mui/material";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import CategoryIcon from "@mui/icons-material/Category";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import BarChartIcon from "@mui/icons-material/BarChart";
+import PeopleIcon from "@mui/icons-material/People";
+import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 
 const drawerWidth = 240;
 
 const menuItems = [
-  { text: 'Dashboard', icon: <DashboardIcon />, path: '/admin/dashboard' },
-  { text: 'Товары', icon: <InventoryIcon />, path: '/admin/products' },
-  { text: 'Категории', icon: <CategoryIcon />, path: '/admin/categories' },
-  { text: 'Заказы', icon: <ShoppingCartIcon />, path: '/admin/orders' },
-  { text: 'Пользователи', icon: <PeopleIcon />, path: '/admin/users' },
-  { text: 'Статистика', icon: <BarChartIcon />, path: '/admin/statistics' },
+  { text: "Dashboard", icon: <DashboardIcon />, path: "/admin/dashboard" },
+  { text: "Товары", icon: <InventoryIcon />, path: "/admin/products" },
+  { text: "Категории", icon: <CategoryIcon />, path: "/admin/categories" },
+  { text: "Заказы", icon: <ShoppingCartIcon />, path: "/admin/orders" },
+  { text: "Пользователи", icon: <PeopleIcon />, path: "/admin/users" },
+  {
+    text: "Поддержка",
+    icon: <SupportAgentIcon />,
+    path: "/admin/support/tickets",
+  },
+  { text: "Статистика", icon: <BarChartIcon />, path: "/admin/statistics" },
 ];
 
 export const Sidebar = () => {
@@ -37,14 +43,14 @@ export const Sidebar = () => {
       sx={{
         width: drawerWidth,
         flexShrink: 0,
-        '& .MuiDrawer-paper': {
+        "& .MuiDrawer-paper": {
           width: drawerWidth,
-          boxSizing: 'border-box',
+          boxSizing: "border-box",
         },
       }}
     >
       <Toolbar />
-      <Box sx={{ overflow: 'auto' }}>
+      <Box sx={{ overflow: "auto" }}>
         <List>
           {menuItems.map((item) => (
             <ListItem key={item.text} disablePadding>
@@ -62,4 +68,3 @@ export const Sidebar = () => {
     </Drawer>
   );
 };
-
