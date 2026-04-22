@@ -31,6 +31,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import PersonIcon from "@mui/icons-material/Person";
 import api from "../../services/api";
+import { useAuthStore } from "../../store/authStore";
 import type {
   User,
   UpdateUserDto,
@@ -38,7 +39,15 @@ import type {
   UserRole,
 } from "../../types/users";
 
+const canEditUser = (user: User, currentUserEmail: string | undefined): boolean => {
+  if (!currentUserEmail) return true;
+  if (user.role === "admin") return false;
+  if (user.email === currentUserEmail) return false;
+  return true;
+};
+
 export const UsersList = () => {
+  const currentUserEmail = useAuthStore((s) => s.user?.email);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
@@ -307,38 +316,48 @@ export const UsersList = () => {
                       </TableCell>
                       <TableCell>{user.isOAuthUser ? "Да" : "Нет"}</TableCell>
                       <TableCell align="right">
-                        <IconButton
-                          onClick={() => handleRoleChange(user)}
-                          color={user.role === "admin" ? "default" : "primary"}
-                          size="small"
-                          title={
-                            user.role === "admin"
-                              ? "Сделать пользователем"
-                              : "Сделать администратором"
-                          }
-                        >
-                          {user.role === "admin" ? (
-                            <PersonIcon />
-                          ) : (
-                            <AdminPanelSettingsIcon />
-                          )}
-                        </IconButton>
-                        <IconButton
-                          onClick={() => handleBan(user)}
-                          color={user.isBanned ? "success" : "error"}
-                          size="small"
-                          title={user.isBanned ? "Разбанить" : "Забанить"}
-                        >
-                          {user.isBanned ? <CheckCircleIcon /> : <BlockIcon />}
-                        </IconButton>
-                        <IconButton
-                          onClick={() => handleDelete(user)}
-                          color="error"
-                          size="small"
-                          title="Удалить"
-                        >
-                          <DeleteIcon />
-                        </IconButton>
+                        {canEditUser(user, currentUserEmail) ? (
+                          <>
+                            <IconButton
+                              onClick={() => handleRoleChange(user)}
+                              color={user.role === "admin" ? "default" : "primary"}
+                              size="small"
+                              title={
+                                user.role === "admin"
+                                  ? "Сделать пользователем"
+                                  : "Сделать администратором"
+                              }
+                            >
+                              {user.role === "admin" ? (
+                                <PersonIcon />
+                              ) : (
+                                <AdminPanelSettingsIcon />
+                              )}
+                            </IconButton>
+                            <IconButton
+                              onClick={() => handleBan(user)}
+                              color={user.isBanned ? "success" : "error"}
+                              size="small"
+                              title={user.isBanned ? "Разбанить" : "Забанить"}
+                            >
+                              {user.isBanned ? <CheckCircleIcon /> : <BlockIcon />}
+                            </IconButton>
+                            <IconButton
+                              onClick={() => handleDelete(user)}
+                              color="error"
+                              size="small"
+                              title="Удалить"
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </>
+                        ) : (
+                          <Typography variant="caption" color="text.secondary">
+                            {user.email === currentUserEmail
+                              ? "Вы"
+                              : "Админ"}
+                          </Typography>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))

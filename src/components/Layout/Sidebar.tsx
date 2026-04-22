@@ -16,6 +16,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import PeopleIcon from "@mui/icons-material/People";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
+import CampaignIcon from "@mui/icons-material/Campaign";
 
 const drawerWidth = 240;
 
@@ -31,6 +32,7 @@ const menuItems = [
     path: "/admin/support/tickets",
   },
   { text: "Статистика", icon: <BarChartIcon />, path: "/admin/statistics" },
+  { text: "Баннер", icon: <CampaignIcon />, path: "/admin/banner" },
 ];
 
 export const Sidebar = () => {

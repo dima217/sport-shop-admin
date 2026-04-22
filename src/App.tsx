@@ -17,6 +17,7 @@ import { Statistics } from './pages/Statistics';
 import { UsersList } from './pages/Users/UsersList';
 import { TicketsList } from './pages/Support/TicketsList';
 import { TicketDetails } from './pages/Support/TicketDetails';
+import { BannerPage } from './pages/Banner/BannerPage';
 import { useAuthStore } from './store/authStore';
 import { useEffect } from 'react';
 
@@ -191,6 +192,16 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <TicketDetails />
+                </Layout>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/banner"
+            element={
+              <ProtectedRoute>
+                <Layout>
+                  <BannerPage />
                 </Layout>
               </ProtectedRoute>
             }
