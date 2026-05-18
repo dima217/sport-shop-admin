@@ -145,7 +145,7 @@ export const Dashboard = () => {
             Выручка (месяц)
           </Typography>
           <Typography variant="h4">
-            {statistics.revenue.month.toLocaleString("ru-RU")} ₽
+            {statistics.revenue.month.toLocaleString("be-BY")} Br
           </Typography>
         </Paper>
         <Paper sx={{ p: 2 }}>
@@ -207,7 +207,7 @@ export const Dashboard = () => {
               <YAxis />
               <Tooltip
                 formatter={(value: number | undefined) =>
-                  value ? `${value.toLocaleString("ru-RU")} ₽` : ""
+                    value ? `${value.toLocaleString("bel-BY")} Br` : ""
                 }
               />
               <Bar dataKey="value" fill="#8884d8" />

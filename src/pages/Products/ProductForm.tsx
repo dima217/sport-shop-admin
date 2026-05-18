@@ -274,7 +274,7 @@ export const ProductForm = () => {
             <Typography variant="h6">Цены</Typography>
             <Box sx={{ display: "flex", gap: 2 }}>
               <TextField
-                label="Цена (₽)"
+                label="Цена (Br)"
                 type="number"
                 {...register("price", {
                   required: "Цена обязательна",
@@ -289,7 +289,7 @@ export const ProductForm = () => {
                 }}
               />
               <TextField
-                label="Старая цена (₽)"
+                label="Старая цена (Br)"
                 type="number"
                 {...register("oldPrice", {
                   min: { value: 0, message: "Цена должна быть положительной" },

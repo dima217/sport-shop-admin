@@ -124,7 +124,7 @@ export const ProductDiscount = () => {
         <Box sx={{ mb: 3 }}>
           <Typography variant="h6">{product.name}</Typography>
           <Typography variant="body2" color="text.secondary">
-            Текущая цена: {product.price.toLocaleString("ru-RU")} ₽
+            Текущая цена: {product.price.toLocaleString("be-BY")} Br
           </Typography>
         </Box>
 
@@ -170,17 +170,17 @@ export const ProductDiscount = () => {
             {discountPercent > 0 && (
               <Alert severity="info">
                 <Typography variant="body2">
-                  Старая цена: {calculatedOldPrice.toLocaleString("ru-RU")} ₽
+                  Старая цена: {calculatedOldPrice.toLocaleString("be-BY")} Br
                 </Typography>
                 <Typography variant="body2" fontWeight="bold">
-                  Новая цена: {Math.round(newPrice).toLocaleString("ru-RU")} ₽
+                  Новая цена: {Math.round(newPrice).toLocaleString("be-BY")} Br
                 </Typography>
                 <Typography variant="body2">
                   Скидка: {discountPercent}% (
                   {Math.round(calculatedOldPrice - newPrice).toLocaleString(
-                    "ru-RU"
+                    "be-BY"
                   )}{" "}
-                  ₽)
+                  Br)
                 </Typography>
               </Alert>
             )}

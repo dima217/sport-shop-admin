@@ -127,10 +127,10 @@ export const OrderDetails = () => {
                       <TableCell>{item.color || '-'}</TableCell>
                       <TableCell>{item.quantity}</TableCell>
                       <TableCell align="right">
-                        {item.price.toLocaleString('ru-RU')} ₽
+                        {item.price.toLocaleString('be-BY')} Br
                       </TableCell>
                       <TableCell align="right">
-                        {(item.price * item.quantity).toLocaleString('ru-RU')} ₽
+                        {(item.price * item.quantity).toLocaleString('be-BY')} Br
                       </TableCell>
                     </TableRow>
                   ))}
@@ -139,7 +139,7 @@ export const OrderDetails = () => {
             </TableContainer>
             <Box sx={{ mt: 2, display: 'flex', justifyContent: 'flex-end' }}>
               <Typography variant="h6">
-                Итого: {order.total.toLocaleString('ru-RU')} ₽
+                Итого: {order.total.toLocaleString('be-BY')} Br
               </Typography>
             </Box>
           </Paper>

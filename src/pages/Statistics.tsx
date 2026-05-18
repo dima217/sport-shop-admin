@@ -134,7 +134,7 @@ export const Statistics = () => {
                 <YAxis yAxisId="right" orientation="right" stroke="#82ca9d" />
                 <Tooltip
                   formatter={(value: number | undefined) =>
-                    value ? `${value.toLocaleString("ru-RU")} ₽` : ""
+                    value ? `${value.toLocaleString("be-BY")} Br` : ""
                   }
                 />
                 <Legend />
@@ -148,7 +148,7 @@ export const Statistics = () => {
                   yAxisId="right"
                   dataKey="выручка"
                   fill="#82ca9d"
-                  name="Выручка (₽)"
+                  name="Выручка (Br)"
                 />
               </BarChart>
             </ResponsiveContainer>

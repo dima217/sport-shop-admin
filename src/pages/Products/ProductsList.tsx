@@ -185,11 +185,11 @@ export const ProductsList = () => {
                               color: "text.secondary",
                             }}
                           >
-                            {product.oldPrice.toLocaleString("ru-RU")} ₽
+                            {product.oldPrice.toLocaleString("be-BY")} Br
                           </Typography>
                         )}
                         <Typography variant="body1" fontWeight="bold">
-                          {product.price.toLocaleString("ru-RU")} ₽
+                          {product.price.toLocaleString("be-BY")} Br
                         </Typography>
                       </Box>
                     </TableCell>
