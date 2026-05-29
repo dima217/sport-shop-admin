@@ -16,7 +16,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Chip,
   IconButton,
   Button,
 } from "@mui/material";
@@ -24,17 +23,6 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import api from "../../services/api";
 import type { Order, OrdersResponse, OrderStatus } from "../../types/orders";
 import { format } from "date-fns";
-
-const statusColors: Record<
-  OrderStatus,
-  "default" | "primary" | "success" | "warning" | "error"
-> = {
-  pending: "warning",
-  processing: "primary",
-  shipped: "info",
-  delivered: "success",
-  cancelled: "error",
-};
 
 const statusLabels: Record<OrderStatus, string> = {
   pending: "Ожидает",

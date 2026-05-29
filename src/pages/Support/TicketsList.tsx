@@ -15,6 +15,7 @@ import {
   FormControl,
   InputLabel,
   Select,
+  SelectChangeEvent,
   MenuItem,
   Chip,
   IconButton,
@@ -107,18 +108,18 @@ export const TicketsList = () => {
   };
 
   const handleStatusFilterChange = (
-    event: React.ChangeEvent<{ value: unknown }>
+    event: SelectChangeEvent<TicketStatus | "all">
   ) => {
     setStatusFilter(event.target.value as TicketStatus | "all");
     setOffset(0);
   };
 
-  const handleSortByChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleSortByChange = (event: SelectChangeEvent<"createdAt" | "updatedAt" | "status">) => {
     setSortBy(event.target.value as "createdAt" | "updatedAt" | "status");
     setOffset(0);
   };
 
-  const handleSortOrderChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  const handleSortOrderChange = (event: SelectChangeEvent<"asc" | "desc">) => {
     setSortOrder(event.target.value as "asc" | "desc");
     setOffset(0);
   };

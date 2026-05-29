@@ -13,10 +13,8 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Chip,
   Button,
   FormControl,
-  InputLabel,
   Select,
   MenuItem,
 } from '@mui/material';
@@ -92,7 +90,7 @@ export const OrderDetails = () => {
       </Box>
 
       <Grid container spacing={3}>
-        <Grid item xs={12} md={8}>
+        <Grid size={{ xs: 12, md: 8 }}>
           <Paper sx={{ p: 3, mb: 3 }}>
             <Typography variant="h6" gutterBottom>
               Товары в заказе
@@ -145,7 +143,7 @@ export const OrderDetails = () => {
           </Paper>
         </Grid>
 
-        <Grid item xs={12} md={4}>
+        <Grid size={{ xs: 12, md: 4 }}>
           <Paper sx={{ p: 3, mb: 3 }}>
             <Typography variant="h6" gutterBottom>
               Информация о заказе
