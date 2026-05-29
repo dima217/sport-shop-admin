@@ -15,7 +15,7 @@ import {
   FormControl,
   InputLabel,
   Select,
-  SelectChangeEvent,
+  type SelectChangeEvent,
   MenuItem,
   Chip,
   IconButton,
